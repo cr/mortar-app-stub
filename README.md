@@ -1,3 +1,16 @@
+# Pomodorino for Firefox OS
+
+Stub for a simplistic Firefox OS app that is intended to become a basic Pomodoro(TM) time management helper.
+
+See:
+
+* [The Pomodoro Technique](http://www.pomodorotechnique.com/book/)
+
+## References
+
+* [Firefox OS App Generator](https://marketplace.firefox.com/developers/docs/app_generator)
+* [Mortar App Stub](https://github.com/mozilla/mortar-app-stub)
+
 # A Blank Template for Open Web Apps
 
 *This template has been updated with a new structure as of May 2013. Other mortar templates will be updated soon too.*
