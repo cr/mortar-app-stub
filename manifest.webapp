@@ -1,7 +1,7 @@
 {
   "version": "0.1",
-  "name": "My Awesome App",
-  "description": "Your new awesome Open Web App",
+  "name": "Pomodorino",
+  "description": "A minimalistic timer usable for implementing the Pomodoro time management technique",
   "launch_path": "/index.html",
   "icons": {
     "16": "/img/icons/mortar-16.png",
@@ -9,23 +9,14 @@
     "128": "/img/icons/mortar-128.png"
   },
   "developer": {
-    "name": "Your Name",
-    "url": "http://yourawesomeapp.com"
+    "name": "Christiane Ruetten",
+    "url": "http://cr.23bit.net"
   },
   "installs_allowed_from": ["*"],
   "appcache_path": "/cache.manifest",
   "locales": {
-    "es": {
-      "description": "Su nueva e impresionante Open Web App",
-      "developer": {
-        "url": "http://yourawesomeapp.com"
-      }
-    },
-    "it": {
-      "description": "Il vostro nuovo fantastico Open Web App",
-      "developer": {
-        "url": "http://yourawesomeapp.com"
-      }
+    "de": {
+      "description": "Ein minimalistischer Timer zur Umsetzung der Pomodoro-Zeitmanagementtechnik"
     }
   },
   "default_locale": "en"
