@@ -3,6 +3,7 @@
   "name": "Pomodorino",
   "description": "Minimalistic timer usable for implementing the Pomodoro time management technique",
   "launch_path": "/index.html",
+  "type": "web",
   "icons": {
     "16": "/img/icons/pomodorino-uspf-16.png",
     "48": "/img/icons/pomodorino-uspf-48.png",
@@ -16,10 +17,5 @@
   },
   "installs_allowed_from": ["*"],
   "appcache_path": "/cache.manifest",
-  "locales": {
-    "de": {
-      "description": "Minimalistischer Timer zur Umsetzung der Pomodoro-Zeitmanagementtechnik"
-    }
-  },
   "default_locale": "en"
 }

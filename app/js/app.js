@@ -52,8 +52,8 @@ var state = "config";
 
 // The player's state
 var timer = {
-    worklen: 25.0*60,
-    slacklen: 5.0*60,
+    worklen: 10.0*60/60,
+    slacklen: 5.0*60/60,
     working: true,
     started_at: 0,
     paused_at: 0
@@ -96,7 +96,7 @@ function quit() {
 }
 
 // Update objects
-function update( dt ) {
+function update() {
     var running = (Date.now() - timer.started_at) / 1000.0;
     var rest;
     if( timer.working ) {
@@ -107,6 +107,7 @@ function update( dt ) {
     if( rest <= 0.0 ) {
         timer.working = ! timer.working;
         timer.started_at = Date.now();
+        navigator.vibrate([100, 100, 100]);
     }
 };
 
@@ -119,11 +120,11 @@ function render() {
     if( timer.working ) {
         currentstate = "Working";
         stateelement.style.background = "orange";
-        rest = Math.min( timer.worklen - running + 1, timer.worklen );
+        rest = Math.min( timer.worklen - running, timer.worklen );
     } else {
         currentstate = "Slacking";
         stateelement.style.background = "green";
-        rest = Math.min( timer.slacklen - running + 1, timer.slacklen );
+        rest = Math.min( timer.slacklen - running, timer.slacklen );
     }
 
     var restminutes = Math.floor(rest/60).toString();
