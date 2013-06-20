@@ -13,9 +13,8 @@
   },
   "developer": {
     "name": "Christiane Ruetten",
-    "url": "http://cr.23bit.net"
+    "url": "http://cr.23bit.net/pomodorino/"
   },
   "installs_allowed_from": ["*"],
-  "appcache_path": "/cache.manifest",
   "default_locale": "en"
 }

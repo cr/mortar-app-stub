@@ -1,4 +1,6 @@
-/*
+
+'use strict';
+
 var installBtn = document.getElementById( 'install-btn' );
 
 if(installBtn) {
@@ -26,7 +28,6 @@ if(installBtn) {
 
     }
 }
-*/
 
 var config = document.getElementById( 'config' );
 var display = document.getElementById( 'display' );
@@ -50,7 +51,7 @@ var requestAnimFrame = (function() {
 
 var state = "config";
 
-// The player's state
+// timer state
 var timer = {
     worklen: 10.0*60/60,
     slacklen: 5.0*60/60,
@@ -63,36 +64,41 @@ function configure() {
     state = "config";
     timer.started_at = 0;
     timer.paused_at = 0;
-    config.style.visibility = 'visible';
-    display.style.visibility = 'hidden';
-    confirm.style.visibility = 'hidden';
+    config.style.display = 'block';
+    display.style.display = 'none';
+    confirm.style.display = 'none';
 };
 
 function start() {
     state = "running";
     timer.started_at = Date.now();
     timer.paused_at = 0;
-    config.style.visibility = 'hidden';
-    display.style.visibility = 'visible';
-    confirm.style.visibility = 'hidden';
+    config.style.display = 'none';
+    display.style.display = 'block';
+    confirm.style.display = 'none';
 }
 
 function pause() {
-    state = "paused";
-    timer.paused_at = Date.now();
-    confirm.style.visibility = 'visible';
+    if( state == "running" ) {
+        state = "paused";
+        timer.paused_at = Date.now();
+        confirm.style.display = 'block';
+    }
 }
 
 function resume() {
-    state = "running";
-    pause_delay = Date.now() - timer.paused_at;
-    timer.started += pause_delay;
-    timer_paused_at = 0;
-    confirm.style.visibility = 'hidden';
+    if( state == "paused" ) {
+        state = "running";
+        var pause_delay = Date.now() - timer.paused_at;
+        timer.started_at += pause_delay;
+        timer.paused_at = 0;
+        confirm.style.display = 'none';
+    }
 }
 
 function quit() {
     state = "quit";
+    configure();
 }
 
 // Update objects
@@ -107,7 +113,7 @@ function update() {
     if( rest <= 0.0 ) {
         timer.working = ! timer.working;
         timer.started_at = Date.now();
-        navigator.vibrate([100, 100, 100]);
+        navigator.vibrate( [100, 100, 100] );
     }
 };
 
@@ -119,18 +125,18 @@ function render() {
     var rest;
     if( timer.working ) {
         currentstate = "Working";
-        stateelement.style.background = "orange";
+        stateelement.style.background = "#ff0000";
         rest = Math.min( timer.worklen - running, timer.worklen );
     } else {
         currentstate = "Slacking";
-        stateelement.style.background = "green";
+        stateelement.style.background = "#089a07";
         rest = Math.min( timer.slacklen - running, timer.slacklen );
     }
 
     var restminutes = Math.floor(rest/60).toString();
     var restseconds = Math.floor(rest%60).toString();
     restseconds = ("0"+restseconds).substr(-2)
-    reststring = restminutes + ":" + restseconds;
+    var reststring = restminutes + ":" + restseconds;
 
     stateelement.textContent = currentstate;
     timeelement.textContent = reststring;
@@ -146,17 +152,14 @@ function loop() {
     }
 };
 
-
-
-// Don't run the game when the tab isn't visible
+// Don't run when the tab isn't block
 //window.addEventListener( 'focus', function() {
 //    unpause();
 //});
 
-//window.addEventListener( 'blur', function() {
-//    pause();
-//});
+window.addEventListener( 'blur', function() {
+    pause();
+});
 
-var then = Date.now();
 configure();
 loop();

@@ -20,7 +20,7 @@
 
       <section role="region">
         <header>
-          <button><span class="icon icon-close" onclick="quit();">close</span></button>
+          <!--button><span class="icon icon-close" onclick="quit();">close</span></button-->
           <menu type="toolbar">
             <button onclick="start();">Start</button>
           </menu>
@@ -52,6 +52,8 @@
         </div>
       </section>
 
+      <button id="install-btn" class="recommend">Install</button>
+
     </div>
 
     <div id="display" role="fullscreen" onclick="pause();">
@@ -60,7 +62,7 @@
     </div>
 
     <div id="confirm">
-      <form role="dialog" data-type="confirm">
+      <form role="dialog" data-type="confirm" onsubmit="return false;">
         <section>
           <h1>Paused</h1>
           <p>What do you want to do?</p>
