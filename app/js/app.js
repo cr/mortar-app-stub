@@ -43,9 +43,7 @@ var requestAnimFrame = (function() {
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
-        function(callback){
-            window.setTimeout( callback, 1000 / 20);
-        };
+        function( callback ) { window.setTimeout( callback, 1000 / 20); };
 })();
 
 var state = "config";
@@ -59,7 +57,32 @@ var timer = {
     paused_at: 0
 };
 
+
 var lock;
+
+function loaddefaults() {
+    var worklen = localStorage.getItem( 'worklen' );
+    if( worklen ) worklen = parseInt( worklen )
+    else worklen = timer.worklen;
+    if( worklen >= 1*60 && worklen <= 90*60 ) {
+        var e = document.getElementById( 'worklen-inp' );
+        e.value = Math.floor( worklen/60 ).toString();
+        setrange( e );
+    }
+    var slacklen = localStorage.getItem( 'slacklen' );
+    if( slacklen ) slacklen = parseInt( slacklen )
+    else slacklen = timer.slacklen;
+    if( slacklen >= 1*60 && slacklen <= 90*60 ) {
+        var e = document.getElementById( 'slacklen-inp' );
+        e.value = Math.floor( slacklen/60 ).toString();
+        setrange( e );
+    }
+}
+
+function savedefaults() {
+    localStorage.setItem( 'worklen', timer.worklen.toString() );
+    localStorage.setItem( 'slacklen', timer.slacklen.toString() );
+}
 
 function configure() {
     state = "config";
@@ -68,7 +91,7 @@ function configure() {
     config.style.display = 'block';
     display.style.display = 'none';
     confirm.style.display = 'none';
-    if( lock && lock.unlock ) lock.unlock();
+    if( lock && lock.unlock ) { lock.unlock(); lock = NaN; }
 };
 
 function start() {
@@ -79,6 +102,7 @@ function start() {
     display.style.display = 'block';
     confirm.style.display = 'none';
     lock = navigator.requestWakeLock( 'screen' );
+    savedefaults();
 }
 
 function pause() {
@@ -86,7 +110,7 @@ function pause() {
         state = "paused";
         timer.paused_at = Date.now();
         confirm.style.display = 'block';
-        if( lock && lock.unlock ) lock.unlock();
+        if( lock && lock.unlock ) { lock.unlock(); lock = NaN; }
     }
 }
 
@@ -97,17 +121,30 @@ function resume() {
         timer.started_at += pause_delay;
         timer.paused_at = 0;
         confirm.style.display = 'none';
-        screenLock = navigator.requestWakeLock('screen');
+        lock = navigator.requestWakeLock( 'screen' );
     }
 }
 
 function quit() {
     state = "quit";
+    if( lock && lock.unlock ) { lock.unlock(); lock = NaN; }
     configure();
+}
+
+function unfocus() {
+    if( state == "running" ) {
+        pause();
+        if( lock && lock.unlock ) { lock.unlock(); lock = NaN; }
+    }
+}
+
+function focus() {
+    if( state == "running" ) lock = navigator.requestWakeLock( 'screen' );
 }
 
 function setrange( e ) {
     var val = parseInt( e.value );
+    if( isNaN( val ) || val < 1 ) { val = 1 }
     var h = e.parentElement.previousElementSibling;
     if( e.name == "worklen" ) {
         timer.worklen = val*60;
@@ -119,6 +156,12 @@ function setrange( e ) {
     }    
 }
 
+function switchperiod() {
+    timer.working = ! timer.working;
+    timer.started_at = Date.now();
+    navigator.vibrate( [100, 100, 100] );
+}
+
 // Update objects
 function update() {
     var running = (Date.now() - timer.started_at) / 1000.0;
@@ -128,11 +171,7 @@ function update() {
     } else {
         rest = timer.slacklen - running;
     }
-    if( rest <= 0.0 ) {
-        timer.working = ! timer.working;
-        timer.started_at = Date.now();
-        navigator.vibrate( [100, 100, 100] );
-    }
+    if( rest <= 0.0 ) switchperiod();
 };
 
 var lastrunning;
@@ -170,12 +209,8 @@ function loop() {
     }
 };
 
-// Don't run when the tab isn't block
-//window.addEventListener( 'focus', function() {
-//    unpause();
-//});
-
-window.addEventListener( 'blur', function() { pause(); });
+window.addEventListener( 'blur', unfocus );
+window.addEventListener( 'focus', focus );
 document.getElementById( 'worklen-inp' ).addEventListener( 'input',
     function() { setrange( this ); }, false );
 document.getElementById( 'slacklen-inp' ).addEventListener( 'input',
@@ -185,5 +220,6 @@ document.getElementById( 'resume-btn' ).addEventListener( 'click', resume, false
 document.getElementById( 'stop-btn' ).addEventListener( 'click', configure, false );
 document.getElementById( 'display' ).addEventListener( 'click', pause, false );
 
+loaddefaults();
 configure();
 loop();
