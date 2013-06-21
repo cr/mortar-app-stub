@@ -16,7 +16,7 @@ if(installBtn) {
     if( navigator.mozApps ) {
 
         installBtn.addEventListener('click', function() {
-            navigator.mozApps.install(location.href + 'manifest.webapp');
+            navigator.mozApps.install("http://cr.23bit.net/pomodorino/app/manifest.webapp");
         }, false);
 
         var req = navigator.mozApps.getSelf();
@@ -35,7 +35,6 @@ var confirm = document.getElementById( 'confirm' );
 var stateelement = document.getElementById( 'state' );
 var timeelement = document.getElementById( 'time' );
 
-
 // A cross-browser requestAnimationFrame
 // See https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 var requestAnimFrame = (function() {
@@ -53,8 +52,8 @@ var state = "config";
 
 // timer state
 var timer = {
-    worklen: 10.0*60/60,
-    slacklen: 5.0*60/60,
+    worklen: 25*60,
+    slacklen: 5*60,
     working: true,
     started_at: 0,
     paused_at: 0
@@ -99,6 +98,19 @@ function resume() {
 function quit() {
     state = "quit";
     configure();
+}
+
+function setrange( e ) {
+    var val = parseInt( e.value );
+    var h = e.parentElement.previousElementSibling;
+    if( e.name == "worklen" ) {
+        timer.worklen = val*60;
+        h.textContent = "Sprint period: " + val.toString() + " min";
+    }
+    if( e.name == "slacklen" ) {
+        timer.slacklen = val*60;
+        h.textContent = "Slack period: " + val.toString() + " min";
+    }    
 }
 
 // Update objects

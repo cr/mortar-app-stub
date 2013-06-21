@@ -6,11 +6,11 @@
     <title>Pomodorino</title>
     <meta name="description" content="A minimalist timer usable for the Pomodoro time management technique">
     <meta name="viewport" content="width=device-width">
-
+    <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/headers.css">
     <link rel="stylesheet" href="css/buttons.css">
-    <link rel="stylesheet" href="css/seekbars.css">
+    <!--link rel="stylesheet" href="css/seekbars.css"-->
     <link rel="stylesheet" href="css/confirm.css">
   </head>
  
@@ -28,30 +28,17 @@
         </header>
       </section>
 
-      <h2 class="bb-docs">Sprint period length</h2>
+      <h2 class="bb-docs">Sprint period: 25 min</h2>
       <section role="region">
-        <div role="slider" aria-valuemin="1" aria-valuenow="25" aria-valuemax="90" aria-valuetext="Sprint period length in minutes">
-          <label>1</label>
-          <label>90</label>
-          <div>
-            <progress value="25" max="90"></progress>
-            <button>handler</button>
-          </div>
-        </div>
+        <input type="range" name="worklen" min="1" max="90" step="1" value="25" onclick="setrange(this);" style="width:100%;">
       </section>
 
-      <h2 class="bb-docs">Slack period length</h2>
+      <h2 class="bb-docs">Slack period: 5 min</h2>
       <section role="region">
-        <div role="slider" aria-valuemin="1" aria-valuenow="5" aria-valuemax="30" aria-valuetext="Slack period length in minutes">
-          <label>1</label>
-          <label>30</label>
-          <div>
-            <progress value="5" max="30"></progress>
-            <button>handler</button>
-          </div>
-        </div>
+        <input type="range" name="slacklen" min="1" max="30" step="1" value="5" onclick="setrange(this);" style="width:100%;">
       </section>
 
+      <p>&nbsp;</p>
       <button id="install-btn" class="recommend">Install</button>
 
     </div>
