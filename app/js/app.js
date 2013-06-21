@@ -16,7 +16,7 @@ if(installBtn) {
     if( navigator.mozApps ) {
 
         installBtn.addEventListener('click', function() {
-            navigator.mozApps.install("http://cr.23bit.net/pomodorino/app/manifest.webapp");
+            navigator.mozApps.install( location.href + 'manifest.webapp' );
         }, false);
 
         var req = navigator.mozApps.getSelf();
@@ -59,6 +59,8 @@ var timer = {
     paused_at: 0
 };
 
+var lock;
+
 function configure() {
     state = "config";
     timer.started_at = 0;
@@ -66,6 +68,7 @@ function configure() {
     config.style.display = 'block';
     display.style.display = 'none';
     confirm.style.display = 'none';
+    if( lock && lock.unlock ) lock.unlock();
 };
 
 function start() {
@@ -75,6 +78,7 @@ function start() {
     config.style.display = 'none';
     display.style.display = 'block';
     confirm.style.display = 'none';
+    lock = navigator.requestWakeLock( 'screen' );
 }
 
 function pause() {
@@ -82,6 +86,7 @@ function pause() {
         state = "paused";
         timer.paused_at = Date.now();
         confirm.style.display = 'block';
+        if( lock && lock.unlock ) lock.unlock();
     }
 }
 
@@ -92,6 +97,7 @@ function resume() {
         timer.started_at += pause_delay;
         timer.paused_at = 0;
         confirm.style.display = 'none';
+        screenLock = navigator.requestWakeLock('screen');
     }
 }
 
@@ -169,9 +175,15 @@ function loop() {
 //    unpause();
 //});
 
-window.addEventListener( 'blur', function() {
-    pause();
-});
+window.addEventListener( 'blur', function() { pause(); });
+document.getElementById( 'worklen-inp' ).addEventListener( 'input',
+    function() { setrange( this ); }, false );
+document.getElementById( 'slacklen-inp' ).addEventListener( 'input',
+    function() { setrange( this ); }, false );
+document.getElementById( 'start-btn' ).addEventListener( 'click', start, false );
+document.getElementById( 'resume-btn' ).addEventListener( 'click', resume, false );
+document.getElementById( 'stop-btn' ).addEventListener( 'click', configure, false );
+document.getElementById( 'display' ).addEventListener( 'click', pause, false );
 
 configure();
 loop();
