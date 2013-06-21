@@ -96,6 +96,7 @@ function configure() {
 
 function start() {
     state = "running";
+    timer.working = true;
     timer.started_at = Date.now();
     timer.paused_at = 0;
     config.style.display = 'none';
