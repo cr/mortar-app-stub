@@ -1,20 +1,21 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "name": "Pomodorino",
+  "size": "388000",
   "description": "Minimalistic timer usable for implementing the Pomodoro time management technique",
-  "launch_path": "/index.html",
+  "launch_path": "/pomodorino/app/index.html",
   "type": "web",
   "icons": {
-    "16": "/img/icons/pomodorino-uspf-16.png",
-    "48": "/img/icons/pomodorino-uspf-48.png",
-    "64": "/img/icons/pomodorino-uspf-64.png",
-    "128": "/img/icons/pomodorino-uspf-128.png",
-    "256": "/img/icons/pomodorino-uspf-256.png"
+    "16": "/pomodorino/app/img/icons/pomodorino-uspf-16.png",
+    "48": "/pomodorino/app/img/icons/pomodorino-uspf-48.png",
+    "64": "/pomodorino/app/img/icons/pomodorino-uspf-64.png",
+    "128": "/pomodorino/app/img/icons/pomodorino-uspf-128.png",
+    "256": "/pomodorino/app/img/icons/pomodorino-uspf-256.png"
   },
   "developer": {
     "name": "Christiane Ruetten",
-    "url": "http://cr.23bit.net/"
+    "url": "https://github.com/cr"
   },
-  "installs_allowed_from": ["*"],
+  "installs_allowed_from": ["https://cr.github.io/pomodorino/app/"],
   "default_locale": "en"
 }
