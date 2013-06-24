@@ -16,6 +16,6 @@
     "name": "Christiane Ruetten",
     "url": "http://github.com/cr"
   },
-  "installs_allowed_from": ["http://cr.github.io"],
+  "installs_allowed_from": ["*"],
   "default_locale": "en"
 }
