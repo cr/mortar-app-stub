@@ -14,8 +14,8 @@
   },
   "developer": {
     "name": "Christiane Ruetten",
-    "url": "https://github.com/cr"
+    "url": "http://github.com/cr"
   },
-  "installs_allowed_from": ["https://cr.github.io/pomodorino/app/"],
+  "installs_allowed_from": ["http://cr.github.io/pomodorino/app/"],
   "default_locale": "en"
 }
