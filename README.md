@@ -1,6 +1,6 @@
 # Pomodorino for Firefox OS
 
-Simplistic Firefox OS app that is intended to become a basic Pomodoro(TM) time management helper.
+Simplistic Firefox OS timer app suited as Pomodoro(TM) time management helper.
 
 See:
 
